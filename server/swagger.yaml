@@ -1,0 +1,102 @@
+swagger: "2.0"
+info:
+  description: "Record Expenses"
+  version: "1.0.0"
+  title: "Expense API"
+basePath: "/"
+schemes:
+- "https"
+- "http"
+paths:
+  /addexpense:
+    post:
+      summary: "Add a new expense to the db"
+      parameters:
+      - name: "description"
+        in: "path"
+        description: "Describe about the day to day expense"
+        required: true
+        type: "string"
+      - name: "date"
+        in: "path"
+        description: "Date when the expense is spent"
+        type: "date"
+      - name: "amount"
+        in: "path"
+        description: "Money spent"
+        type: "number"
+      - name: "type"
+        in: "path"
+        description: "Category to which the expense belogs"
+        type: "string"        
+      responses:
+        404:
+          description: "Unable to Insert the record"
+  /getexpense/:usertype:
+    get:
+      summary: "Get all the expense for the type"
+      operationId: "find"
+      parameters:
+      - name: "type"
+        in: "type"
+        description: "Input User type to get all the expense for that type"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "record not founf"
+  /getexpense/:startdate/:enddate:
+    get:
+      summary: "Finds Expense for a date range"
+      operationId: "find"
+      parameters:
+      - name: "startdate"
+        in: "path"
+        description: "Start date to filter by"
+        required: true
+        type: "date"
+      - name: "enddate"
+        in: "path"
+        description: "end date to filter by"
+        required: true
+        type: "date"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid date value"
+  /getexpense/:id:
+    patch:
+      summary: "Find expense by ID and update"
+      operationId: "findByIdAndUpdate"
+      parameters:
+      - name: "expenseId"
+        in: "path"
+        description: "ID of expense to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "description"
+        in: "path"
+        description: "value to update any record for the id"
+        required: true
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "Expense not found"
+    delete:
+      summary: "deletes a expense"
+      operationId: "findByIdAndRemove"
+      parameters:
+      - name: "expenseId"
+        in: "path"
+        description: "ID of expense to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        404:
+          description: "No record to delete"
